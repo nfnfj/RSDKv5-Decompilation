@@ -99,11 +99,20 @@ jobs:
           path: bin/Linux
   v5-android:
     runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
     steps:
       - name: Checkout repository Android
         uses: actions/checkout@v2
         with:
           submodules: recursive    
+      - name: Setup MSYS2
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW32
+          update: true
+          install: pkg-config make git mingw-w64-i686-gcc mingw-w64-i686-libogg mingw-w64-i686-libtheora
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v1
       - name: Download libogg, libvorbis, and libtheora for easier includes
